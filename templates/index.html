@@ -9,14 +9,18 @@
     <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
-  {% if session %}
-        <h1>Welcome {{session.userinfo.name}}!</h1>
-        <p><a href="/logout">Logout</a></p>
-        <div><pre>{{pretty}}</pre></div>
-    {% else %}
-        <h1>Welcome Guest</h1>
-        <p><a href="/login">Login</a></p>
-    {% endif %}
+
+    <!--Auth0 (?)
+        {% if session %}
+            <h1>Welcome {{session.userinfo.name}}!</h1>
+            <p><a href="/logout">Logout</a></p>
+            <div><pre>{{pretty}}</pre></div>
+        {% else %}
+            <h1>Welcome Guest</h1>
+            <p><a href="/login">Login</a></p>
+        {% endif %}
+    -->
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
@@ -40,36 +44,19 @@
       <!--Main Body-->
       <div class="container-fluid text-center">
         <!--Cards-->
-        <div id="cards-container" class="row row-cols-auto">
-          <div class="col" class="hero-card-main"> <!--These are the individual cards (Temporary)-->
-            <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
-            <h1>Batman</h1>
-          </div>
-
-          <div class="col" class="hero-card-main">
-            <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
-            <h1>Batman</h1>
-          </div>
-
-          <div class="col" class="hero-card-main">
-            <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
-            <h1>Batman</h1>
-          </div>
-
-          <div class="col" class="hero-card-main">
-            <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
-            <h1>Batman</h1>
-          </div>
-
-          <div class="col" class="hero-card-main">
-            <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
-            <h1>Batman</h1>
-          </div>
-
+        <div id="cards-container" class="row row-cols-auto justify-content-evenly">
+            
+            <!--Card Template
+            <div class="col" class="hero-card-main">
+                <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
+                <h1>Batman</h1>
+            </div>
+            -->
         </div>
       </div>
 
       <!--JavaScript-->
       <script src="../static/js/bootstrap.min.js"></script>
+      <script src="../static/js/test.js"></script>
 </body>
 </html>

@@ -1,4 +1,10 @@
 .hero-img-main {
     width: 	240px;
-    height: 320px;
+}
+
+@media only screen and (max-width: 576px) {
+    .hero-img-main {
+        width: 80vw;
+        
+    }
 }
