@@ -25,8 +25,6 @@ def get_hero_info(id):
         return jsonify(error='API request failed'), response.status_code
 
 
-
-
 #print(get_hero_id('ironman'))
 #doota = get_hero_info(69);
 #print(doota['powerstats'])
