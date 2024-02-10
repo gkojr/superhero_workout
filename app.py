@@ -7,7 +7,7 @@ import traceback
 import json
 from os import environ as env
 from urllib.parse import quote_plus, urlencode
-
+from langchain_community.llms import Ollama
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
 from flask import Flask, redirect, render_template, session, url_for
@@ -117,13 +117,15 @@ initTasks = []
 openAIKey = env.get('OPENAI_API_KEY')
 client = OpenAI(api_key=openAIKey)
 
+ollama_openhermes = Ollama(model='openhermes')
 
 dietician = Agent(
     role='Dietician',
     goal='Given a persons age, height, weight, and a given superhero goal, create a perfect diet to ensure that person reaches their goal.',
     backstory='You work at a lead physiological think tank. Your expertise lies in creating diets for anyone to ensure that they reach their goals. You have a knack for making sure that these diets are efficient, tasty, and affordable.',
     verbose=True,
-    allow_delegation=False
+    allow_delegation=False,
+    llm=ollama_openhermes
 )
 
 personalTrainer = Agent(
@@ -131,7 +133,8 @@ personalTrainer = Agent(
     goal='Given a persons age, height, weight, and a given superhero goal, create a perfect workout plan to ensure that person reaches their goal.',
     backstory='You work at a lead physiological think tank. Your expertise lies in creating workout plans for anyone to ensure that they reach their goals. You have a knack for making sure that these plans are efficient, reasonable, and doable by anyone.',
     verbose=True,
-    allow_delegation=False
+    allow_delegation=False,
+    llm=ollama_openhermes
 )
 
 jsonFormatter = Agent(
@@ -139,7 +142,8 @@ jsonFormatter = Agent(
     goal='Given a diet or workout plan, format the result into a json format that can be used in a python array or dataframe to output the data.',
     backstory='You work at a lead tech think tank. Your expertise lies in formatting data into JSON for use in code. You have a knack for making sure that the results are efficient, reasonable, and easily implemented by anyone.',
     verbose=False,
-    allow_delegation=False
+    allow_delegation=False,
+    llm=ollama_openhermes
 )
 
 fanboy = Agent(
@@ -147,7 +151,8 @@ fanboy = Agent(
     goal='Given the name of a superhero, you are to think of everything that superhero has gone throught within their entire life.',
     backstory='You are someone who has religiously tracked every single superhero and knows everything about them. You have done this for over 50 years and has accumulated a vast foundation in superhero knowledge. You have a knack for easily coming up with the answer for any question about any superhero and making sure that the answer is true and easily understanded by laymen.',
     verbose=True,
-    allow_delegation=False
+    allow_delegation=False,
+    llm=ollama_openhermes
 )
 
 @app.route('/description/<name>')
@@ -236,7 +241,7 @@ def index():
 
 @app.route('/heroView/<hero_id>')
 def heroView(hero_id):
-    return render_template("heroView.html", hero_id=hero_id)
+    return render_template("heroView.html", hero_id=hero_id, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 if __name__ == '__main__':
