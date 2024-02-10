@@ -3,7 +3,6 @@ import requests
 import os
 from openai import OpenAI
 from crewai import Agent, Task, Crew, Process
-from dotenv import load_dotenv
 import traceback
 import json
 from os import environ as env
