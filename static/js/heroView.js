@@ -4,7 +4,6 @@ var heroId = window.location.pathname.split('/').pop();
 
 
 $(document).ready(function() {
-
     //get hero name and get the image for the hero
     $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
@@ -18,9 +17,10 @@ $(document).ready(function() {
         // Update the src attribute of the "hero-image" img element
         $('#hero-img').attr('src', heroImageUrl);
 
-        /*$.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
-            $('.hero-description').text(data);
-        }) */
+        $.getJSON('/workout/' + heroId + '/' + 12 + '/' + 72 + '/' + 180 + '/' + 'True', function(data) {
+            $('#hero-description').text(data);
+            alert(data)
+        })
 
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;
