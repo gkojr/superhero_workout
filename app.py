@@ -86,9 +86,9 @@ def get_hero_info(id):
 
 @app.route('/hero/<name>')
 def get_hero_data(name): 
-    hero_id = get_hero_id(name);
-    hero_data = get_hero_info(hero_id);
-    return hero_data;
+    hero_id = get_hero_id(name)
+    hero_data = get_hero_info(hero_id)
+    return hero_data
 
 
 #ai stuff
@@ -132,19 +132,23 @@ fanboy = Agent(
 @app.route('/description/<name>')
 def generateDescription(name):
     genDesc = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive description about a given superhero. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
+        description=f"""Using the insights provided, develop a fully comprehensive description about {name}. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
         agent=fanboy
     )
-    result = runTask(genDesc)
+    t = []
+    t.append(genDesc)
+    result = runTask(t)
     return result
 
 # parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
 def generateDiet(age, height, weight, superhero, formatted):
     genDiet = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).""",
+        description=f"Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).",
         agent=dietician
     )
-    result = runTask(genDiet)
+    t = []
+    t.append(genDiet)
+    result = runTask(t)
     if formatted:
         r = formatJson(result)
         return r
@@ -158,7 +162,9 @@ def generateWorkoutPlan(name, age, height, weight, formatted):
         description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {name}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
         agent=personalTrainer
     )
-    result = runTask(genWorkout)
+    t = []
+    t.append(genWorkout)
+    result = runTask(t)
     if formatted:
         r = formatJson(result)
         return r
@@ -170,13 +176,15 @@ def formatJson(input):
         description=f'Given the following diet/workout plan {input}, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array.',
         agent=jsonFormatter
     )
-    result = runTask(formatJson)
+    t = []
+    t.append(formatJson)
+    result = runTask(t)
     return result
 
-def runTask(task):
+def runTask(t):
     plan = Crew(
-        agents=[dietician, personalTrainer],
-        tasks=task,
+        agents=[dietician, personalTrainer, jsonFormatter, fanboy],
+        tasks=t,
         verbose=2
     )
     result = plan.kickoff()
