@@ -4,25 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Superhero Workout</title>
-
-    <link rel="stylesheet" href="../css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/index.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/index.css">
 </head>
 <body>
-  {% if session %}
-        <h1>Welcome {{session.userinfo.name}}!</h1>
-        <p><a href="/logout">Logout</a></p>
-        <div><pre>{{pretty}}</pre></div>
-    {% else %}
-        <h1>Welcome Guest</h1>
-        <p><a href="/login">Login</a></p>
-    {% endif %}
+
+    <!--Auth0 (?)
+        {% if session %}
+            <h1>Welcome {{session.userinfo.name}}!</h1>
+            <p><a href="/logout">Logout</a></p>
+            <div><pre>{{pretty}}</pre></div>
+        {% else %}
+            <h1>Welcome Guest</h1>
+            <p><a href="/login">Login</a></p>
+        {% endif %}
+    -->
+
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <!--Profile Icon (Change HREF)-->
             <a class="navbar-brand" href="#" id="profile">
-                <img src="../assets/img/person-circle.svg" alt="Bootstrap" width="30" height="24">
+                <img src="../static/assets/img/person-circle.svg" alt="Bootstrap" width="30" height="24">
             </a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -36,6 +41,20 @@
           </div>
         </div>
       </nav>
+
+      <!--Main Body-->
+      <div class="container-fluid text-center">
+        <!--Cards-->
+        <div id="cards-container" class="row row-cols-auto justify-content-evenly">
+            
+            <!--Card Template
+            <div class="col" class="hero-card-main">
+                <img class="hero-img-main" src="https://www.superherodb.com/pictures2/portraits/10/100/639.jpg" alt="">
+                <h1>Batman</h1>
+            </div>
+            -->
+        </div>
+      </div>
 
       <!--JavaScript-->
       <script src="../static/js/bootstrap.min.js"></script>
