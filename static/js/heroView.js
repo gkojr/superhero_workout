@@ -31,9 +31,4 @@ $(document).ready(function() {
         window.location.href = `diet.html?heroID=${heroId}`;
     }
 
-
-
-
-
-
 });
