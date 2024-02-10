@@ -1,32 +1,70 @@
 from flask import Flask, render_template, jsonify
 import requests
 import os
-import openai
+from openai import OpenAI
 from crewai import Agent, Task, Crew, Process
 from dotenv import load_dotenv
 import traceback
+import json
+from os import environ as env
+from urllib.parse import quote_plus, urlencode
 
-from packaging import version
+from authlib.integrations.flask_client import OAuth
+from dotenv import find_dotenv, load_dotenv
+from flask import Flask, redirect, render_template, session, url_for
 
-required_version = version.parse("1.1.1")
-current_version = version.parse(openai.__version__)
+ENV_FILE = find_dotenv()
+if ENV_FILE:
+    load_dotenv(ENV_FILE)
 
-if current_version < required_version:
-    raise ValueError(f"Error: OpenAI version {openai.__version__}"
-                     " is less than the required version 1.1.1")
-else:
-    print("OpenAI version is compatible.")
+app = Flask(__name__, template_folder='templates')
+app.secret_key = env.get("APP_SECRET_KEY")
 
-from openai import OpenAI
+#oauth stuff
+oauth = OAuth(app)
 
-load_dotenv()
-openAIKey = os.getenv('OPENAI_API_KEY')
-client = OpenAI(api_key=openAIKey)
-initTasks = []
+oauth.register(
+    "auth0",
+    client_id=env.get("AUTH0_CLIENT_ID"),
+    client_secret=env.get("AUTH0_CLIENT_SECRET"),
+    client_kwargs={
+        "scope": "openid profile email",
+    },
+    server_metadata_url=f'https://{env.get("AUTH0_DOMAIN")}/.well-known/openid-configuration'
+)
 
-app = Flask(__name__)
+@app.route("/login")
+def login():
+    return oauth.auth0.authorize_redirect(
+        redirect_uri=url_for("callback", _external=True)
+    )
+
+@app.route("/callback", methods=["GET", "POST"])
+def callback():
+    token = oauth.auth0.authorize_access_token()
+    session["user"] = token
+    return redirect("/")
+
+@app.route("/logout")
+def logout():
+    session.clear()
+    return redirect(
+        "https://" + env.get("AUTH0_DOMAIN")
+        + "/v2/logout?"
+        + urlencode(
+            {
+                "returnTo": url_for("home", _external=True),
+                "client_id": env.get("AUTH0_CLIENT_ID"),
+            },
+            quote_via=quote_plus,
+        )
+    )
 
 #ai stuff
+initTasks = []
+openAIKey = env.get('OPENAI_API_KEY')
+client = OpenAI(api_key=openAIKey)
+
 dietician = Agent(
     role='Dietician',
     goal='Given a persons age, height, weight, and a given superhero goal, create a perfect diet to ensure that person reaches their goal.',
@@ -53,17 +91,28 @@ jsonFormatter = Agent(
 
 def generateDiet(age, height, weight, superhero):
     genDiet = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}.""",
+        description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).""",
         agent=dietician
     )
-    initTasks.append(genDiet)
+    result = runTask(genDiet)
+    return result
 
 def generateWorkoutPlan(age, height, weight, superhero):
     genWorkout = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}.""",
+        description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
         agent=personalTrainer
     )
-    initTasks.append(genWorkout)
+    result = runTask(genWorkout)
+    return result
+
+def runTask(task):
+    plan = Crew(
+        agents=[dietician, personalTrainer],
+        tasks=task,
+        verbose=2
+    )
+    result = plan.kickoff()
+    return result
 
 def chat(msg, hero):
     try:
@@ -86,17 +135,11 @@ def chat(msg, hero):
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    chat("what can I do to be like you?", "Iron Man")
-    plan = Crew(
-        agents=[dietician, personalTrainer],
-        tasks=initTasks,
-        verbose=2
-    )
-    result = plan.kickoff()
-    print(result)
+    app.debug=True
+    app.run(host="0.0.0.0", port=env.get("PORT", 3000))
+    
 
 
