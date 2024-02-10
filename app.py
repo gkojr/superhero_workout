@@ -137,7 +137,7 @@ def generateWorkoutPlan(age, height, weight, superhero, formatted):
     
 def formatJson(input):
     formatJson = Task(
-        description='Given a diet/workout plan, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array.',
+        description=f'Given the following diet/workout plan {input}, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array.',
         agent=jsonFormatter
     )
     result = runTask(formatJson)
