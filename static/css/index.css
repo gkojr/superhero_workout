@@ -14,5 +14,10 @@
 }
 
 .hero-name {
+    text-decoration: none!important;
+    color: rgb(24, 24, 24);
+}
+
+a {
     text-decoration: none;
 }
