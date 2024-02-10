@@ -11,11 +11,12 @@ $(document).ready(function() {
         //const heroName = data.name;
         //alert(heroName);
         const heroName = data.name; 
-        //$('.hero-description').text(heroName);
+        $('#hero-name').text(heroName);
 
-        var heroImageUrl = data.imageUrl;
+        var heroImageUrl = data.image.url;
+        //alert(heroImageUrl);
         // Update the src attribute of the "hero-image" img element
-        $('.hero-image').attr('src', heroImageUrl);
+        $('#hero-img').attr('src', heroImageUrl);
 
         /*$.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
             $('.hero-description').text(data);
