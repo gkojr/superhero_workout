@@ -24,16 +24,11 @@ $(document).ready(function() {
     })
 
     function showWorkout(heroID) {
-        window.location.href = `workout.html?heroID=${heroId}`;
+        //window.location.href = `workout.html?heroID=${heroId}`;
     }
 
     function showDietPlan(heroID) {
-        window.location.href = `diet.html?heroID=${heroId}`;
+        //window.location.href = `diet.html?heroID=${heroId}`;
     }
-
-
-
-
-
 
 });
