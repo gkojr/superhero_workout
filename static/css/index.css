@@ -1,0 +1,14 @@
+.hero-img-main {
+    width: 	240px;
+}
+
+@media only screen and (max-width: 576px) {
+    .hero-img-main {
+        width: 80vw;
+        
+    }
+}
+
+.hero-card-main {
+    cursor: pointer;
+}
