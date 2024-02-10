@@ -1,4 +1,4 @@
-const heroNames = ['batman', 'spider-man', 'superman', 'wonder-woman', 'green-lantern']
+const heroNames = ['batman', 'spider-man', 'superman', 'hulk', 'ironman']
 
 $(document).ready(function() {
 
