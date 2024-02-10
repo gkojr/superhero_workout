@@ -20,8 +20,8 @@ $(document).ready(function() {
         $('#hero-img').attr('src', heroImageUrl);
 
 
-        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
-            //$('#hero-description').text(data);
+        $.getJSON('/description/' + heroName, function(data) {
+            $('#hero-description').text(data);
         })
 
         function showWorkout(heroID) {
@@ -29,7 +29,7 @@ $(document).ready(function() {
             // Get reference to the div
             var div = document.getElementById('workout');
             // Display text in the div
-            $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
+            $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
                 //$('.hero-description').text(data);
                 const workout = data; 
                 div.textContent = workout;
@@ -42,7 +42,7 @@ $(document).ready(function() {
             //window.location.href = `diet.html?heroID=${heroId}`;
             var div = document.getElementById('diet');
             // Display text in the div
-            $.getJSON('/diet/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
+            $.getJSON('/diet/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
                 //$('.hero-description').text(data);
                 const workout = data; 
                 div.textContent = workout;

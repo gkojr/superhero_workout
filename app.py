@@ -118,49 +118,13 @@ initTasks = []
 openAIKey = env.get('OPENAI_API_KEY')
 client = OpenAI(api_key=openAIKey)
 
-
-
-dietician = Agent(
-    role='Dietician',
-    goal='Given a persons age, height, weight, and a given superhero goal, create a perfect diet to ensure that person reaches their goal.',
-    backstory='You work at a lead physiological think tank. Your expertise lies in creating diets for anyone to ensure that they reach their goals. You have a knack for making sure that these diets are efficient, tasty, and affordable.',
-    verbose=True,
-    allow_delegation=False
-)
-
-personalTrainer = Agent(
-    role='Personal Trainer',
-    goal='Given a persons age, height, weight, and a given superhero goal, create a perfect workout plan to ensure that person reaches their goal.',
-    backstory='You work at a lead physiological think tank. Your expertise lies in creating workout plans for anyone to ensure that they reach their goals. You have a knack for making sure that these plans are efficient, reasonable, and doable by anyone.',
-    verbose=True,
-    allow_delegation=False,
-
-)
-
-jsonFormatter = Agent(
-    role='JSON Formatter',
-    goal='Given a diet or workout plan, format the result into a json format that can be used in a python array or dataframe to output the data.',
-    backstory='You work at a lead tech think tank. Your expertise lies in formatting data into JSON for use in code. You have a knack for making sure that the results are efficient, reasonable, and easily implemented by anyone.',
-    verbose=False,
-    allow_delegation=False
-)
-
-fanboy = Agent(
-    role='Fanboy',
-    goal='Given the name of a superhero, you are to think of everything that superhero has gone throught within their entire life.',
-    backstory='You are someone who has religiously tracked every single superhero and knows everything about them. You have done this for over 50 years and has accumulated a vast foundation in superhero knowledge. You have a knack for easily coming up with the answer for any question about any superhero and making sure that the answer is true and easily understanded by laymen.',
-    verbose=True,
-    allow_delegation=False
-)
-
-
 @app.route('/description/<name>')
 def generateDescription(name):
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             temperature=0.5,
-            max_tokens=4000,
+            max_tokens=2000,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0,
@@ -172,9 +136,10 @@ def generateDescription(name):
     except Exception as e:
         traceback.print_exc()
 
-    print(result)
     result = response.choices[0].message.content
     return jsonify(result)
+
+    
 
 # parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
 @app.route('/diet/<name>/<age>/<height>/<weight>/<formatted>')
