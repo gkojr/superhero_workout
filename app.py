@@ -9,13 +9,15 @@ from os import environ as env
 from urllib.parse import quote_plus, urlencode
 from authlib.integrations.flask_client import OAuth
 from dotenv import find_dotenv, load_dotenv
-from flask import Flask, redirect, render_template, session, url_for
+from flask import Flask, redirect, render_template, session, url_for, jsonify
+from flask_cors import CORS
 
 ENV_FILE = find_dotenv()
 if ENV_FILE:
     load_dotenv(ENV_FILE)
 
 app = Flask(__name__, template_folder='templates')
+CORS(app)
 app.secret_key = env.get("APP_SECRET_KEY")
 
 #oauth stuff
@@ -116,107 +118,115 @@ initTasks = []
 openAIKey = env.get('OPENAI_API_KEY')
 client = OpenAI(api_key=openAIKey)
 
-
-dietician = Agent(
-    role='Dietician',
-    goal='Given a persons age, height, weight, and a given superhero goal, create a perfect diet to ensure that person reaches their goal.',
-    backstory='You work at a lead physiological think tank. Your expertise lies in creating diets for anyone to ensure that they reach their goals. You have a knack for making sure that these diets are efficient, tasty, and affordable.',
-    verbose=True,
-    allow_delegation=False
-)
-
-personalTrainer = Agent(
-    role='Personal Trainer',
-    goal='Given a persons age, height, weight, and a given superhero goal, create a perfect workout plan to ensure that person reaches their goal.',
-    backstory='You work at a lead physiological think tank. Your expertise lies in creating workout plans for anyone to ensure that they reach their goals. You have a knack for making sure that these plans are efficient, reasonable, and doable by anyone.',
-    verbose=True,
-    allow_delegation=False,
-
-)
-
-jsonFormatter = Agent(
-    role='JSON Formatter',
-    goal='Given a diet or workout plan, format the result into a json format that can be used in a python array or dataframe to output the data.',
-    backstory='You work at a lead tech think tank. Your expertise lies in formatting data into JSON for use in code. You have a knack for making sure that the results are efficient, reasonable, and easily implemented by anyone.',
-    verbose=False,
-    allow_delegation=False
-)
-
-fanboy = Agent(
-    role='Fanboy',
-    goal='Given the name of a superhero, you are to think of everything that superhero has gone throught within their entire life.',
-    backstory='You are someone who has religiously tracked every single superhero and knows everything about them. You have done this for over 50 years and has accumulated a vast foundation in superhero knowledge. You have a knack for easily coming up with the answer for any question about any superhero and making sure that the answer is true and easily understanded by laymen.',
-    verbose=True,
-    allow_delegation=False
-)
-
 @app.route('/description/<name>')
 def generateDescription(name):
-    genDesc = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive description about {name}. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
-        agent=fanboy
-    )
-    t = []
-    t.append(genDesc)
-    result = runTask(t)
-    return result
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            temperature=0.5,
+            max_tokens=2000,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            messages=[
+                {"role": "system", "content": f"Given the name of a superhero, you are to think of everything that superhero has gone throught within their entire life. You are someone who has religiously tracked every single superhero and knows everything about them. You have done this for over 50 years and has accumulated a vast foundation in superhero knowledge. You have a knack for easily coming up with the answer for any question about any superhero and making sure that the answer is true and easily understanded by laymen."},
+                {"role": "user", "content": f"Using the insights provided, develop a fully comprehensive description about {name}. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences."}
+            ]
+        )
+    except Exception as e:
+        traceback.print_exc()
+
+    result = response.choices[0].message.content
+    return jsonify(result)
+
+    
 
 # parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
-def generateDiet(age, height, weight, superhero, formatted):
-    genDiet = Task(
-        description=f"Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).",
-        agent=dietician
-    )
-    t = []
-    t.append(genDiet)
-    result = runTask(t)
-    if formatted:
+@app.route('/diet/<name>/<age>/<height>/<weight>/<formatted>')
+def generateDiet(name, age, height, weight, formatted):
+    formatted = eval(formatted)
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            temperature=0.5,
+            max_tokens=2000,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            messages=[
+                {"role": "system", "content": f"Given a persons age, height, weight, and a given superhero goal, create a perfect diet to ensure that person reaches their goal. You work at a lead physiological think tank. Your expertise lies in creating diets for anyone to ensure that they reach their goals. You have a knack for making sure that these diets are efficient, tasty, and affordable.,"},
+                {"role": "user", "content": f"Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {name}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight)."}
+            ]
+        )
+    except Exception as e:
+        traceback.print_exc()
+
+    result = response.choices[0].message.content
+    if (formatted==True):
         r = formatJson(result)
         return r
     else:
-        return result
-
+        return jsonify(result)
 # parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
 @app.route('/workout/<name>/<age>/<height>/<weight>/<formatted>')
 def generateWorkoutPlan(name, age, height, weight, formatted):
-    genWorkout = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {name}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
-        agent=personalTrainer
-    )
-    t = []
-    t.append(genWorkout)
-    result = runTask(t)
-    if formatted:
+    formatted = eval(formatted)
+    print(f'inputted paramters are {name}, {age}, {height}, {weight}, {formatted} {type(formatted)}')
+    try:
+        print('generating workout plan')
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            temperature=0.5,
+            max_tokens=2000,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            messages=[
+                {"role": "system", "content": f"Given a persons age, height, weight, and a given superhero goal, create a perfect workout plan to ensure that person reaches their goal. You work at a lead physiological think tank. Your expertise lies in creating workout plans for anyone to ensure that they reach their goals. You have a knack for making sure that these plans are efficient, reasonable, and doable by anyone."},
+                {"role": "user", "content": f"Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {name}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight)."}
+            ]
+        )
+    except Exception as e:
+        traceback.print_exc()
+
+    print('generated workout plan')
+    result = response.choices[0].message.content
+    if (formatted==True):
         r = formatJson(result)
         return r
     else:
-        return result 
+        return jsonify(result)
+    
+    
     
 def formatJson(input):
-    formatJson = Task(
-        description=f'Given the following diet/workout plan {input}, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array.',
-        agent=jsonFormatter
-    )
-    t = []
-    t.append(formatJson)
-    result = runTask(t)
-    return result
+    print("formatting json")
+    try:
+        response = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            temperature=0.5,
+            max_tokens=2000,
+            top_p=1.0,
+            frequency_penalty=0.0,
+            presence_penalty=0.0,
+            messages=[
+                {"role": "system", "content": f"Given a diet or workout plan, format the result into a json format that can be used in a python array or dataframe to output the data. You work at a lead tech think tank. Your expertise lies in formatting data into JSON for use in code. You have a knack for making sure that the results are efficient, reasonable, and easily implemented by anyone."},
+                {"role": "user", "content": f"Given the following diet/workout plan {input}, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array."}
+            ]
+        )
+    except Exception as e:
+        traceback.print_exc()
 
-def runTask(t):
-    plan = Crew(
-        agents=[dietician, personalTrainer, jsonFormatter, fanboy],
-        tasks=t,
-        verbose=2
-    )
-    result = plan.kickoff()
-    return result
+    result = response.choices[0].message.content
+    print('formatted json')
+    return jsonify(result)
 
 def chat(msg, hero):
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             temperature=0.5,
-            max_tokens=4000,
+            max_tokens=2000,
             top_p=1.0,
             frequency_penalty=0.0,
             presence_penalty=0.0,
@@ -234,14 +244,13 @@ def chat(msg, hero):
 def index():
     return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
-@app.route('/heroView/<hero_id>')
+@app.route('/heroView/<hero_id>', methods=['GET', 'POST'])
 def heroView(hero_id):
     return render_template("heroView.html", hero_id=hero_id, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 if __name__ == '__main__':
     app.debug=True
-    print(getUserData('google-oauth2|103766014111898444978', 'age'))
     app.run(host="0.0.0.0", port=env.get("PORT", 3000))
     
    
