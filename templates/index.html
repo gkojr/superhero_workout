@@ -11,34 +11,36 @@
 </head>
 <body>
 
-    <!--Auth0 (?)
-        {% if session %}
-            <h1>Welcome {{session.userinfo.name}}!</h1>
-            <p><a href="/logout">Logout</a></p>
-            <div><pre>{{pretty}}</pre></div>
-        {% else %}
-            <h1>Welcome Guest</h1>
-            <p><a href="/login">Login</a></p>
-        {% endif %}
-    -->
-
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-            <!--Profile Icon (Change HREF)-->
-            <a class="navbar-brand" href="#" id="profile">
-                <img src="../static/assets/img/person-circle.svg" alt="Bootstrap" width="30" height="24">
+
+            <!--Profile Icon (HREF Changes based on session or not-->
+            {% if session %}
+            <!--<h1>Welcome {{session.userinfo.name}}!</h1>-->
+            <a href="/logout" class="navbar-brand" id="profile">
+                <img src="{{session.userinfo.picture}}" alt="Bootstrap" width="35" height="35">
             </a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-              <a class="nav-link active" aria-current="page" href="#" id="about">About</a>
-              <a class="nav-link" href="#" id="heroes">Heroes</a>
-              <a class="nav-link" href="#">Placeholder</a>
+            <div style="display: none;"><pre>{{pretty}}</pre></div>
+
+            {% else %}
+            <a href="/login" class="navbar-brand" id="profile">
+                <img src="../static/assets/img/person-circle.svg" alt="Bootstrap" width="30" height="30">
+            </a>
+
+            {% endif %}
+
+            <!--Navbar Toggles-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#" id="about">About</a>
+                <a class="nav-link" href="#" id="heroes">Heroes</a>
+                <a class="nav-link" href="#">Placeholder</a>
+                </div>
             </div>
-          </div>
         </div>
       </nav>
 
