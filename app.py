@@ -92,6 +92,23 @@ jsonFormatter = Agent(
     allow_delegation=False
 )
 
+fanboy = Agent(
+    role='Fanboy',
+    goal='Given the name of a superhero, you are to think of everything that superhero has gone throught within their entire life.',
+    backstory='You are someone who has religiously tracked every single superhero and knows everything about them. You have done this for over 50 years and has accumulated a vast foundation in superhero knowledge. You have a knack for easily coming up with the answer for any question about any superhero and making sure that the answer is true and easily understanded by laymen.',
+    verbose=True,
+    allow_delegation=False
+)
+
+
+def generateDescription(superhero):
+    genDesc = Task(
+        description=f"""Using the insights provided, develop a fully comprehensive description about a given superhero. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
+        agent=dietician
+    )
+    result = runTask(genDesc)
+    return result
+
 def generateDiet(age, height, weight, superhero, formatted):
     genDiet = Task(
         description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).""",
@@ -150,7 +167,7 @@ def chat(msg, hero):
     except Exception as e:
         traceback.print_exc()
 
-    print(f"response is {response.choices[0].message.content}")
+    return response.choices[0].message.content
 
 @app.route('/')
 def index():
