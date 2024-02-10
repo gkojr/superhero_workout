@@ -241,7 +241,7 @@ def index():
 
 @app.route('/heroView/<hero_id>')
 def heroView(hero_id):
-    return render_template("heroView.html", hero_id=hero_id)
+    return render_template("heroView.html", hero_id=hero_id, session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 if __name__ == '__main__':
