@@ -28,7 +28,7 @@ def get_hero_info(id):
 
 
 #print(get_hero_id('ironman'))
-doota = get_hero_info(69);
-print(doota['powerstats'])
+#doota = get_hero_info(69);
+#print(doota['powerstats'])
 
     
