@@ -10,7 +10,7 @@ $(document).ready(function() {
         //const heroName = data.name;
         //alert(heroName);
         const heroName = data.name; 
-        $('#hero-name').text(heroName);
+        $('#hero-name').text(heroName); 
         $('#chat').text("Chat with " + heroName);
 
 
