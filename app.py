@@ -129,8 +129,8 @@ fanboy = Agent(
     allow_delegation=False
 )
 
-
-def generateDescription(superhero):
+@app.route('/description/<name>')
+def generateDescription(name):
     genDesc = Task(
         description=f"""Using the insights provided, develop a fully comprehensive description about a given superhero. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
         agent=fanboy
@@ -152,9 +152,10 @@ def generateDiet(age, height, weight, superhero, formatted):
         return result
 
 # parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
-def generateWorkoutPlan(age, height, weight, superhero, formatted):
+@app.route('/workout/<name>/<age>/<height>/<weight>/<formatted>')
+def generateWorkoutPlan(name, age, height, weight, formatted):
     genWorkout = Task(
-        description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
+        description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {name}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
         agent=personalTrainer
     )
     result = runTask(genWorkout)
@@ -203,6 +204,11 @@ def chat(msg, hero):
 @app.route('/')
 def index():
     return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
+@app.route('/heroView')
+def heroView():
+    return render_template("heroView.html")
+
 
 if __name__ == '__main__':
     app.debug=True
