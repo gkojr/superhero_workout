@@ -14,15 +14,22 @@ $(document).ready(function() {
         $('#hero-name').text(heroName);
         $('#chat').text("Chat with " + heroName);
 
+        $.getJSON('/wiki/' + heroName, function(data) {
+            // Update the HTML element with the returned data
+            $('#hero-description').text(data.intro_paragraph);
+            //console.log(data.intro_paragraph);
+        });
+
+
 
         var heroImageUrl = data.image.url;
         //alert(heroImageUrl);
         // Update the src attribute of the "hero-image" img element
         $('#hero-img').attr('src', heroImageUrl);
 
-        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
+        /*$.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
             $('#hero-description').text(data);
-        })
+        }) */
 
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;

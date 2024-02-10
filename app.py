@@ -230,6 +230,29 @@ def chat(msg, hero):
 
     return response.choices[0].message.content
 
+@app.route('/wiki/<heroName>')
+def get_intro(heroName):
+    searchTitle = heroName + " (character)"
+    response = requests.get("https://en.wikipedia.org/w/api.php", params={
+        "action": "query",
+        "format": "json",
+        "titles": heroName,
+        "prop": "extracts",
+        "exintro": True,
+        "explaintext": True,
+        "category": "Category:Comics characters"
+    }).json()
+    
+    intro_text = next(iter(response['query']['pages'].values()))['extract']
+    
+    # Limit the length of the first paragraph to 550 characters
+    intro_paragraph = intro_text[:650] + '...' if len(intro_text) > 200 else intro_text
+    
+    intro_data = {"intro_paragraph": intro_paragraph}
+    
+    # Convert the dictionary to JSON and return it
+    return jsonify(intro_data)
+
 @app.route('/')
 def index():
     return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))

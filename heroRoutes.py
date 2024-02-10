@@ -34,4 +34,26 @@ def get_hero_data(name):
 #doota = get_hero_info(69);
 #print(doota['powerstats'])
 
+
+def get_spiderman_intro():
+    response = requests.get("https://en.wikipedia.org/w/api.php", params={
+        "action": "query",
+        "format": "json",
+        "titles": "Iron Man",
+        "prop": "extracts",
+        "exintro": True,
+        "explaintext": True
+    }).json()
+    
+    intro_text = next(iter(response['query']['pages'].values()))['extract']
+    
+    # Return the first 500 characters of the intro text
+    return intro_text[:600]
+
+# Example usage
+spiderman_intro = get_spiderman_intro()
+print(spiderman_intro)
+
+
+
     
