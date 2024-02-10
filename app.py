@@ -45,6 +45,7 @@ def callback():
     session["user"] = token
     return redirect("/")
 
+
 @app.route("/logout")
 def logout():
     session.clear()
@@ -60,10 +61,12 @@ def logout():
         )
     )
 
+
 #ai stuff
 initTasks = []
 openAIKey = env.get('OPENAI_API_KEY')
 client = OpenAI(api_key=openAIKey)
+
 
 dietician = Agent(
     role='Dietician',
@@ -143,3 +146,15 @@ if __name__ == '__main__':
     
 
 
+@app.route('/hero/<name>')
+def get_hero_id(name):
+    url = f'https://www.superheroapi.com/api.php/1877251196060770/search/{name}'
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        id = data.results[0].id; 
+        return id; 
+    else:
+        return jsonify(error = 'Hero not found'), 404
+    
+    

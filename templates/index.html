@@ -1,11 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <title>Auth0 Example</title>
-  </head>
-  <body>
-    {% if session %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Superhero Workout</title>
+
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/index.css">
+</head>
+<body>
+  {% if session %}
         <h1>Welcome {{session.userinfo.name}}!</h1>
         <p><a href="/logout">Logout</a></p>
         <div><pre>{{pretty}}</pre></div>
@@ -13,5 +17,27 @@
         <h1>Welcome Guest</h1>
         <p><a href="/login">Login</a></p>
     {% endif %}
-  </body>
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <!--Profile Icon (Change HREF)-->
+            <a class="navbar-brand" href="#" id="profile">
+                <img src="../assets/img/person-circle.svg" alt="Bootstrap" width="30" height="24">
+            </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="#" id="about">About</a>
+              <a class="nav-link" href="#" id="heroes">Heroes</a>
+              <a class="nav-link" href="#">Placeholder</a>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <!--JavaScript-->
+      <script src="../static/js/bootstrap.min.js"></script>
+</body>
 </html>
