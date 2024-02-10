@@ -92,20 +92,36 @@ jsonFormatter = Agent(
     allow_delegation=False
 )
 
-def generateDiet(age, height, weight, superhero):
+def generateDiet(age, height, weight, superhero, formatted):
     genDiet = Task(
         description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).""",
         agent=dietician
     )
     result = runTask(genDiet)
-    return result
+    if formatted:
+        r = formatJson(result)
+        return r
+    else:
+        return result
 
-def generateWorkoutPlan(age, height, weight, superhero):
+def generateWorkoutPlan(age, height, weight, superhero, formatted):
     genWorkout = Task(
         description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
         agent=personalTrainer
     )
     result = runTask(genWorkout)
+    if formatted:
+        r = formatJson(result)
+        return r
+    else:
+        return result 
+    
+def formatJson(input):
+    formatJson = Task(
+        description='Given a diet/workout plan, format the result in a way that each day is specifially seperated in terms of calendar dates (Monday, Tuesday, Wednesday, etc), and properly format in a JSON format so that the result can be used in a future python array.',
+        agent=jsonFormatter
+    )
+    result = runTask(formatJson)
     return result
 
 def runTask(task):
