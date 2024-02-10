@@ -94,6 +94,7 @@ def get_hero_id(name):
     else:
         return jsonify(error='API request failed'), response.status_code
 
+@app.route('/heroID/<id>')
 def get_hero_info(id):
     url = f'https://www.superheroapi.com/api.php/1877251196060770/{id}'
     response = requests.get(url)
@@ -238,9 +239,9 @@ def chat(msg, hero):
 def index():
     return render_template("index.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
-@app.route('/heroView')
-def heroView():
-    return render_template("heroView.html")
+@app.route('/heroView/<hero_id>')
+def heroView(hero_id):
+    return render_template("heroView.html", hero_id=hero_id)
 
 
 if __name__ == '__main__':

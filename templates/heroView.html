@@ -4,8 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hero View</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/heroView.js') }}"></script>
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
 </head>
 <body>
+
+            <!--Navbar-->
+            <nav class="navbar navbar-expand-lg bg-body-tertiary">
+                <div class="container-fluid">
+        
+                    <!--Profile Icon (HREF Changes based on session or not-->
+                    {% if session %}
+                    <a href="/logout" class="navbar-brand" id="profile">
+                        <img src="{{session.userinfo.picture}}" alt="Bootstrap" width="35" height="35">
+                    </a>
+                    <div style="display: none;"><pre>{{pretty}}</pre></div>
+        
+                    {% else %}
+                    <a href="/login" class="navbar-brand" id="profile">
+                        <img src="../static/assets/img/person-circle.svg" alt="Bootstrap" width="30" height="30">
+                    </a>
+                    {% endif %}
+        
+                    <!--Navbar Toggles-->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                        <a class="nav-link active" aria-current="page" href="#" id="about">About</a>
+                        <a class="nav-link" href="#" id="heroes">Heroes</a>
+                        <a class="nav-link" href="#">Placeholder</a>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="container text-center">
+                <div class="row gx-6 justify-content-center">
+                    <!--Left Column: Image/Chat-->
+                    <div class="col-md-4 p-4">
+                        <img class="img-fluid" id="hero-img">
+                        <button type="button" id="chat" class="btn btn-secondary btn-lg m-3">Chat with Batman</button>
+                    </div>
+
+                    <!--Right Column: Name/Desc/Diet/Workout-->
+                    <div class="col-md-6 p-4">
+                        <h1 id="hero-name"></h1>
+                        <p id="hero-description">Batman is a superhero appearing in American comic books published by DC Comics. The character was created by artist Bob Kane and writer Bill Finger, and debuted in the 27th issue of the comic book Detective Comics on March 30, 1939. In the DC Universe continuity, Batman is the alias of Bruce Wayne, a wealthy American playboy, philanthropist, and industrialist who resides in Gotham City.</p>
+                        <div class="row m-2">
+                            <div class="col-md-6">
+                                <button id="diet" type="button" class="btn btn-secondary btn-lg m-1">Diet</button>
+                            </div>
+                            <div class="col-md-6">
+                                <button id="workout" type="button" class="btn btn-secondary btn-lg m-1">Workout</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              </div>
     
+        <!--JavaScript-->
+        <script src="../static/js/bootstrap.min.js"></script>
 </body>
 </html>
