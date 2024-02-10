@@ -11,15 +11,17 @@ $(document).ready(function() {
         //alert(heroName);
         const heroName = data.name; 
         $('#hero-name').text(heroName);
+        $('#chat').text("Chat with " + heroName);
+
 
         var heroImageUrl = data.image.url;
         //alert(heroImageUrl);
         // Update the src attribute of the "hero-image" img element
         $('#hero-img').attr('src', heroImageUrl);
 
-        $.getJSON('/workout/' + heroId + '/' + 12 + '/' + 72 + '/' + 180 + '/' + 'True', function(data) {
-            $('#hero-description').text(data);
-            alert(data)
+
+        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
+            //$('#hero-description').text(data);
         })
 
         function showWorkout(heroID) {

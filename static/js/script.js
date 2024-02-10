@@ -1,4 +1,4 @@
-const heroNames = ['batman', 'spider-man', 'superman', 'hulk', 'ironman']
+const heroIDS = [69, 620, 644, 332, 732, 720, 106, 38, 149, 579, 714, 275]
 
 function showHeroDetails(heroID) {
     //window.location.href = `heroView`;
@@ -10,9 +10,8 @@ $(document).ready(function() {
 
   
     //fix this to be done with id instead 
-    heroNames.forEach(function(name) {  //maps the heroes given in the array onto the homescreen
-        $.getJSON('/hero/' + name, function(data) {
-            $.getJSON('/hero/' + name, function(data) {
+    heroIDS.forEach(function(id) {  //maps the heroes given in the array onto the homescreen
+            $.getJSON('/heroID/' + id, function(data) {
                 // Update the DOM with hero information
                 const cardHtml = `
                     <a href="/heroView/${data.id}">
@@ -24,7 +23,7 @@ $(document).ready(function() {
                 `;
                 $('#cards-container').append(cardHtml);
             });
-        });
+        
     })
 
    
