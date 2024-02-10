@@ -14,9 +14,10 @@ heroName =
 
 $(document).ready(function() {
 
+    //get hero name and get the image for the hero
     $.getJSON('/hero/' + heroId, function(data) {
         //get name and use for title
-        var heroName = data.name;
+        const heroName = data.name;
         $('.hero-title').text(heroName);
 
         var heroImageUrl = data.imageUrl;
@@ -24,12 +25,22 @@ $(document).ready(function() {
         $('.hero-image').attr('src', heroImageUrl);
     })
 
+    //get the description for the hero
     $.getJSON('/description/' + heroName, function(data) {
-
+        $('.hero-description').text(data);
     })
 
     function showWorkout(heroID) {
         //window.location.href = `workout.html?heroID=${heroId}`;
+        // Get reference to the div
+        var div = document.getElementById('workout');
+        // Display text in the div
+        $.getJSON('/workout/' + heroName, function(data) {
+            //$('.hero-description').text(data);
+            const workout = data; 
+        })
+        div.textContent = workout;
+        div.style.display = 'block'; // Show the div
     }
 
     function showDietPlan(heroID) {
