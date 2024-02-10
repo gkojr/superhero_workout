@@ -17,9 +17,9 @@ $(document).ready(function() {
         // Update the src attribute of the "hero-image" img element
         $('.hero-image').attr('src', heroImageUrl);
 
-        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
+        /*$.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + false, function(data) {
             $('.hero-description').text(data);
-        })
+        }) */
 
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;
