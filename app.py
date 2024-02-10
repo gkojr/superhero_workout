@@ -133,7 +133,7 @@ fanboy = Agent(
 def generateDescription(superhero):
     genDesc = Task(
         description=f"""Using the insights provided, develop a fully comprehensive description about a given superhero. The description should be informative yet accessible, catering to a casual audience who does not know much about superheroes. Your final answer MUST be no longer than 3 sentences.""",
-        agent=dietician
+        agent=fanboy
     )
     result = runTask(genDesc)
     return result
