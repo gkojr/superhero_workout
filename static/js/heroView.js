@@ -1,23 +1,14 @@
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
-
 // Get heroId from URL
-var heroId = getParameterByName('heroId');
-heroName = 
+var heroId = window.location.pathname.split('/').pop();
+//alert(heroId);
 
 $(document).ready(function() {
 
     //get hero name and get the image for the hero
-    $.getJSON('/hero/' + heroId, function(data) {
+    $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
         const heroName = data.name;
+        alert(heroName);
         $('.hero-title').text(heroName);
 
         var heroImageUrl = data.imageUrl;
@@ -27,7 +18,7 @@ $(document).ready(function() {
 
     //get the description for the hero
     $.getJSON('/description/' + heroName, function(data) {
-        $('.hero-description').text(data);
+        $('.hero-description').text("hello");
     })
 
     function showWorkout(heroID) {
