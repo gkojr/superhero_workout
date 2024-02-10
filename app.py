@@ -109,6 +109,7 @@ def generateDescription(superhero):
     result = runTask(genDesc)
     return result
 
+# parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
 def generateDiet(age, height, weight, superhero, formatted):
     genDiet = Task(
         description=f"""Using the insights provided, develop a fully comprehensive diet plan that ecompasses exactly what the user needs to do to achieve their specified goals. The diet plan should be informative yet accessible, catering to a casual audience who does not know much about dieting. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST include at least 3 options for every meal. Your final answer MUST also be relevant to the provided stats of the user (age, height, and weight).""",
@@ -121,6 +122,7 @@ def generateDiet(age, height, weight, superhero, formatted):
     else:
         return result
 
+# parameters are the users age, height, and weight. as well as the superheroes name. and whether you want the result to be formatted in json
 def generateWorkoutPlan(age, height, weight, superhero, formatted):
     genWorkout = Task(
         description=f"""Using the insights provided, develop a fully comprehensive workout plan that ecompasses exactly what the user needs to do to achieve their specified goals. The workout plan should be informative yet accessible, catering to a casual audience who does not know much about working out. The user is {age} years old, weighs {weight}lbs, and is {height} inches tall. Their superhero physique that they are hoping to achieve is {superhero}. Your final answer MUST be relevant to the provided stats of the user (age, height, and weight).""",
