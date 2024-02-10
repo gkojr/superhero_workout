@@ -8,10 +8,9 @@ $(document).ready(function() {
             $.getJSON('/hero/' + name, function(data) {
                 // Update the DOM with hero information
                 const cardHtml = `
-                    <div class="card" id=${data.id}" onclick="showHeroDetails('${data.id}')">
-                        <p>Test</p>
-                        <img src="${data.image.url}" class="hero-image">
-                        <p class="hero-name">Name: ${data.name}</p>
+                    <div class="col hero-card-main" id=${data.id}" onclick="showHeroDetails('${data.id}')">
+                        <img src="${data.image.url}" class="hero-img-main">
+                        <h1 class="hero-name">${data.name}</h1>
                     </div>
                 `;
                 $('#cards-container').append(cardHtml);
