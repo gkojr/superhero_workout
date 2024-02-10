@@ -24,8 +24,11 @@ def get_hero_info(id):
     else:
         return jsonify(error='API request failed'), response.status_code
 
-
-
+#@app.route('/hero/<name>')
+def get_hero_data(name): 
+    hero_id = get_hero_id(name);
+    hero_data = get_hero_info(hero_id);
+    return hero_data;
 
 #print(get_hero_id('ironman'))
 #doota = get_hero_info(69);
