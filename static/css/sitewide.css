@@ -1,0 +1,8 @@
+body {
+    background-color: rgb(219, 219, 219);
+}
+
+.navbar {
+    border-bottom: solid 2px black;
+    margin-bottom: 10px;
+}
