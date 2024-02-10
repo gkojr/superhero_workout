@@ -207,7 +207,7 @@ def index():
 
 @app.route('/heroView')
 def heroView():
-    return render_template("heroView.html")
+    return render_template("heroView.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
 
 if __name__ == '__main__':
