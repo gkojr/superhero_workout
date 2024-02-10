@@ -10,6 +10,7 @@ function getParameterByName(name, url) {
 
 // Get heroId from URL
 var heroId = getParameterByName('heroId');
+heroName = 
 
 $(document).ready(function() {
 
@@ -21,6 +22,10 @@ $(document).ready(function() {
         var heroImageUrl = data.imageUrl;
         // Update the src attribute of the "hero-image" img element
         $('.hero-image').attr('src', heroImageUrl);
+    })
+
+    $.getJSON('/description/' + heroName, function(data) {
+
     })
 
     function showWorkout(heroID) {
