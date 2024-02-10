@@ -12,3 +12,7 @@
 .hero-card-main {
     cursor: pointer;
 }
+
+.hero-name {
+    text-decoration: none;
+}
