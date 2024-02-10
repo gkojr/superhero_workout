@@ -9,11 +9,12 @@ $(document).ready(function() {
                 // Update the DOM with hero information
                 const cardHtml = `
                     <div class="card" id=${data.id}" onclick="showHeroDetails('${data.id}')">
+                        <p>Test</p>
                         <img src="${data.image.url}" class="hero-image">
                         <p class="hero-name">Name: ${data.name}</p>
                     </div>
                 `;
-                $('#card-container').append(cardHtml);
+                $('#cards-container').append(cardHtml);
             });
         });
     })
