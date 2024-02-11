@@ -24,6 +24,16 @@ $(document).ready(function() {
             $('#hero-description').text(data);
         })
 
+        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
+            //$('.hero-description').text(data);
+            $('#workout-body').text(data);
+        })
+
+        $.getJSON('/diet/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
+            //$('.hero-description').text(data);
+            $('#diet-body').text(data);
+        })
+
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;
             // Get reference to the div
