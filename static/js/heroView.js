@@ -69,7 +69,7 @@ $(document).ready(function() {
             $('#workout-body').text(data);
         })
 
-        $.getJSON('/diet/' + heroName + '/' + userId + '/' + "True", function(data) {
+        $.getJSON('/diet/' + heroName + '/' + userId + '/' + "False", function(data) {
             //$('.hero-description').text(data);
             $('#diet-body').text(data);
         })
