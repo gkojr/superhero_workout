@@ -249,6 +249,7 @@ def formatJson(input):
     print('formatted json')
     return jsonify(result)
 
+@app.route('/chat/<msg>/<hero>')
 def chat(msg, hero):
     try:
         response = client.chat.completions.create(
@@ -266,7 +267,7 @@ def chat(msg, hero):
     except Exception as e:
         traceback.print_exc()
 
-    return response.choices[0].message.content
+    return jsonify(response.choices[0].message.content)
 
 @app.route('/')
 def index():

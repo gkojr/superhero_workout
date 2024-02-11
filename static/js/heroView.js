@@ -2,9 +2,47 @@
 var heroId = window.location.pathname.split('/').pop();
 //alert(heroId);
 
+function showChatBox() {
+    var contentDiv = document.getElementById("chat-text-box");
+
+    // Create an input element
+    var inputElement = document.createElement("textarea");
+    inputElement.id = "chatBox";
+    var button = document.createElement("button")
+    button.id = "chatButton";
+    inputElement.type = "text"; // Set input type to text
+
+    // Replace the content of the div with the input element
+    contentDiv.innerHTML = ""; // Clear existing content
+    contentDiv.appendChild(inputElement); // Append the input element
+    contentDiv.appendChild(button);
+
+    button.onclick = function() {
+        //alert("test!");
+        var characterText = document.getElementById("chat-text-response");
+        var response = inputElement.value;
+        //alert(response);
+        characterText.innerHTML = "Loading...";
+
+        $.getJSON('/heroID/' + heroId, function(data) {
+            const heroName = data.name; 
+            $.getJSON('/chat/' + response + '/' + heroName, function(data) {
+                $('#chat-text-response').text(data);
+                //console.log(data);
+            })
+    })
+    
+        
+
+
+    }
+}
 
 $(document).ready(function() {
+
     userId = document.getElementById('user_id').value
+
+
     //get hero name and get the image for the hero
     $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
@@ -13,6 +51,7 @@ $(document).ready(function() {
         const heroName = data.name; 
         $('#hero-name').text(heroName);
         $('#chat').text("Chat with " + heroName);
+
 
 
         var heroImageUrl = data.image.url;
@@ -35,9 +74,7 @@ $(document).ready(function() {
             $('#diet-body').text(data);
         })
 
-        function showChatBox() {
-            
-        }
+        
 
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;
