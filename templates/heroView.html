@@ -12,13 +12,13 @@
     <link rel="stylesheet" href="../static/css/heroView.css">
 </head>
 <body>
-    <input type="hidden" id="user_id" name="user_id" value={{session.userinfo.sub}}>
             <!--Navbar-->
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
         
                     <!--Profile Icon (HREF Changes based on session or not-->
                     {% if session %}
+                    <input type="hidden" id="user_id" name="user_id" value={{session.userinfo.sub}}>
                     <a href="/logout" class="navbar-brand" id="profile">
                         <img src="{{session.userinfo.picture}}" alt="Bootstrap" width="35" height="35">
                     </a>
