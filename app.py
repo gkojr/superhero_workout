@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import requests
 import os
 from openai import OpenAI
@@ -110,6 +110,37 @@ def get_hero_data(name):
     hero_id = get_hero_id(name)
     hero_data = get_hero_info(hero_id)
     return hero_data
+
+#authoriztion stuff 
+
+DOMAIN = env.get("AUTH0_DOMAIN")
+ACCESS_TOKEN = env.get("AUTH0_CLIENT_SECRET")
+AUDIENCE = f'https://{DOMAIN}/api/v2/'
+
+# Route to update user metadata
+@app.route('/update_metadata', methods=['POST'])
+def update_metadata():
+    # Get user ID and metadata from the request
+    user_id = request.json.get('user_id')
+    metadata = request.json.get('metadata')
+
+    # Make a POST request to the Auth0 Management API to update user metadata
+    url = f'{AUDIENCE}/users/{user_id}'
+    headers = {
+        'Authorization': f'Bearer {ACCESS_TOKEN}',
+        'Content-Type': 'application/json'
+    }
+    data = {
+        'user_metadata': metadata
+    }
+
+    response = requests.patch(url, json=data, headers=headers)
+
+    # Check if the request was successful
+    if response.ok:
+        return jsonify({'message': 'User metadata updated successfully'})
+    else:
+        return jsonify({'error': 'Failed to update user metadata'}), response.status_code
 
 
 

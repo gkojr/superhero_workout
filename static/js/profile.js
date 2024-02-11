@@ -8,6 +8,13 @@ function editInformation() {
     inputForm.style.display = "block";
 }
 
+
+    var userId = document.getElementById("user").textContent;
+    console.log(userId)
+
+
+
+
 function submitForm() {
     // Get form data
     var age = document.getElementById("age").value;
@@ -15,19 +22,37 @@ function submitForm() {
     var weight = document.getElementById("weight").value;
 
     // Do something with the form data, such as sending it to a server
-    const metaData = 
+    const metadata = 
     {
         "age": age,
         "height": height,
         "weight": weight
     }
 
-    console.log(metaData);
+    console.log(metadata);
 
-    // For demonstration, log the form data to the console
-    //console.log("Age:", age);
-    //console.log("Height (inches):", height);
-    //console.log("Weight (pounds):", weight);
+    fetch('/update_metadata', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            metadata: metadata
+        })
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('User metadata updated successfully');
+        } else {
+            console.error('Failed to update user metadata:', response.statusText);
+        }
+    })
+    .catch(error => {
+        console.error('Error updating user metadata:', error);
+    });
+
+    
 
     // Update displayed information
     document.getElementById("displayAge").textContent = age;
@@ -43,3 +68,4 @@ function submitForm() {
     document.getElementById("height").value = "";
     document.getElementById("weight").value = "";
 }
+
