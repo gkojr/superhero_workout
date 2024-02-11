@@ -283,6 +283,10 @@ def heroView(hero_id):
 def profileView():
     return render_template("profile.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
 
+@app.route('/about')
+def aboutPage():
+    return render_template("about.html", session=session.get('user'), pretty=json.dumps(session.get('user'), indent=4))
+
 if __name__ == '__main__':
     app.debug=True
     app.run(host="0.0.0.0", port=env.get("PORT", 3000))

@@ -17,25 +17,14 @@ function showChatBox() {
     contentDiv.appendChild(inputElement); // Append the input element
     contentDiv.appendChild(button);
 
+
     button.onclick = function() {
         //alert("test!");
         var characterText = document.getElementById("chat-text-response");
         var response = inputElement.value;
-        response.removeQuestionMark = function() {
-            // Find the index of the question mark
-            var index = this.indexOf('?');
-            
-            // If a question mark is found, remove it and return the modified string
-            if (index !== -1) {
-                return this.substring(0, index) + this.substring(index + 1);
-            }
-            
-            // If no question mark is found, return the original string
-            return this;
-        };
+        response = response.replace('?', '');        
         
         
-        //alert(response);
         characterText.innerHTML = "Typing...";
 
         $.getJSON('/heroID/' + heroId, function(data) {
@@ -65,6 +54,8 @@ $(document).ready(function() {
         const heroName = data.name; 
         $('#hero-name').text(heroName);
         $('#chat').text("Chat with " + heroName);
+        $('#dietButton').text("Get the " + heroName + " Diet");
+        $('#workoutButton').text("Get the " + heroName + " Workout");
 
 
 
