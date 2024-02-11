@@ -20,11 +20,26 @@ function showChatBox() {
     button.onclick = function() {
         //alert("test!");
         var characterText = document.getElementById("chat-text-response");
+        var response = inputElement.value;
+        //alert(response);
+        characterText.innerHTML = "Loading...";
+
+        $.getJSON('/heroID/' + heroId, function(data) {
+            const heroName = data.name; 
+            $.getJSON('/chat/' + response + '/' + heroName, function(data) {
+                $('#chat-text-response').text(data);
+                //console.log(data);
+            })
+    })
+    
         
+
+
     }
 }
 
 $(document).ready(function() {
+
     //get hero name and get the image for the hero
     $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
@@ -33,6 +48,7 @@ $(document).ready(function() {
         const heroName = data.name; 
         $('#hero-name').text(heroName);
         $('#chat').text("Chat with " + heroName);
+
 
 
         var heroImageUrl = data.image.url;
