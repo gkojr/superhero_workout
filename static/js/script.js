@@ -17,7 +17,7 @@ $(document).ready(function() {
                     <a href="/heroView/${data.id}">
                     <div class="col hero-card-main" id=${data.id}" onclick="showHeroDetails('${data.id}')">
                         <img src="${data.image.url}" class="hero-img-main">
-                        <div class='row hero-name-holder'><h1 class="hero-name">${data.name}</h1></div>
+                        <h1 class="hero-name">${data.name}</h1>
                     </div>
                     </a>
                 `;
