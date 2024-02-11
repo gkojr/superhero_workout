@@ -8,10 +8,7 @@ function showHeroDetails(heroID) {
 
 $(document).ready(function() {
 
-    function randomHero() {
 
-        window.location.href = "/redirect_page";
-    }
 
   
     //fix this to be done with id instead 
