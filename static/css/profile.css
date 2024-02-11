@@ -1,0 +1,4 @@
+/* Hide the form by default */
+#inputForm {
+    display: none;
+}
