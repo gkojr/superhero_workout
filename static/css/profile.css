@@ -2,3 +2,35 @@
 #inputForm {
     display: none;
 }
+
+html {
+    height: 100%;
+}
+body {
+    height: 100%;
+    margin: 0;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    background: linear-gradient(135deg, rgba(123,169,209,1) 0%, rgba(21,97,172,1) 100%);
+}
+
+#big-block {
+    background-color: rgb(238, 235, 235);
+    border-radius: 10px;
+    box-shadow: 1px 1px 0px #0b3d6b,
+                2px 2px 0px #0b3d6b,
+                3px 3px 0px #0b3d6b,
+                4px 4px 0px #0b3d6b,
+                5px 5px 0px #0b3d6b,
+                6px 6px 0px #0b3d6b;
+    width: 365px;
+    height: 355px;
+}
+
+@media only screen and (max-width: 576px) {
+    #big-block {
+        width: 80vw;
+        
+    }
+}
