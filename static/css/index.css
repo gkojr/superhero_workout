@@ -12,11 +12,22 @@
 
 .hero-card-main {
     cursor: pointer;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 .hero-name {
     text-decoration: none!important;
     color: rgb(24, 24, 24);
+    width: 80%;
+    text-wrap: wrap;
+    display: in-line;
+}
+
+.hero-name-holder {
+    justify-content: center;
+    align-items: center;
 }
 
 a {
