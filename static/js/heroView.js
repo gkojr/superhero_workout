@@ -54,6 +54,9 @@ function showChatBox() {
 
 $(document).ready(function() {
 
+    userId = document.getElementById('user_id').value
+
+
     //get hero name and get the image for the hero
     $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
@@ -75,12 +78,12 @@ $(document).ready(function() {
             $('#hero-description').text(data);
         })
 
-        $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
+        $.getJSON('/workout/' + heroName + '/' + userId + '/' + "False", function(data) {
             //$('.hero-description').text(data);
             $('#workout-body').text(data);
         })
 
-        $.getJSON('/diet/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
+        $.getJSON('/diet/' + heroName + '/' + userId + '/' + "True", function(data) {
             //$('.hero-description').text(data);
             $('#diet-body').text(data);
         })

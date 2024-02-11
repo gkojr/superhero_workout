@@ -8,18 +8,12 @@ function editInformation() {
     inputForm.style.display = "block";
 }
 
-
-    var userId = document.getElementById("user").textContent;
-    console.log(userId)
-
-
-
-
 function submitForm() {
     // Get form data
     var age = document.getElementById("age").value;
     var height = document.getElementById("height").value;
     var weight = document.getElementById("weight").value;
+    var userId = document.getElementById('user_id').value;
 
     // Do something with the form data, such as sending it to a server
     const metadata = 
