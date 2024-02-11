@@ -28,9 +28,21 @@ body {
     height: 355px;
 }
 
+#editButton {
+    align-self: end;
+}
+
+#information {
+    height: 100%;
+}
+
 @media only screen and (max-width: 576px) {
     #big-block {
         width: 80vw;
-        
+        height: 370px;
+    }
+
+    #aligner {
+        align-items: start!important;
     }
 }
