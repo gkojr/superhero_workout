@@ -30,15 +30,7 @@ $(document).ready(function() {
             });
         
     })
-    const cardHtml = `
-    <a href="/heroView/2">
-        <div class="col hero-card-main" id="2" onclick="showHeroDetails('${data.id}')">
-            <img src="/static/img/question.jpg" class="hero-img-main">
-            <h1 class="hero-name">Random</h1>
-        </div>
-    </a>
-`;
-$('#cards-container').append(cardHtml);
+
 
 
 });
