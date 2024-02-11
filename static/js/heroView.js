@@ -35,7 +35,7 @@ function showChatBox() {
         };
         
         
-        alert(response);
+        //alert(response);
         characterText.innerHTML = "Typing...";
 
         $.getJSON('/heroID/' + heroId, function(data) {
