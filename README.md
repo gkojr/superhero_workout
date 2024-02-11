@@ -1,5 +1,5 @@
 ## The Team
-Our front-end developer, Sean Malavet. Taking care of the middleware is George Owusu, and finally handling all of the backend is Jean-Guy Leconte.
+Our front-end developer, Sean Malavet. Taking care of the middleware is George Owusu, and finally handling the backend is Jean-Guy Leconte.
 
 ## Inspiration
 _Healthy Heroes_ was inspired by a drive to inspire people to be active and a love for comic book superheroes. Our web application combines these two objectives into one cohesive experience. 
