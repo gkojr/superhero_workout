@@ -26,7 +26,20 @@ $(document).ready(function() {
         
     })
 
+    //Randomize ID
+    var randID = Math.floor(Math.random() * 650);
+
+    $.getJSON('/heroID/' + randID, function(data) {
+        // Update the DOM with hero information
+        const cardHtml = `
+            <a href="/heroView/` + randID + `">
+            <div class="col hero-card-main" id=${data.randID}" onclick="showHeroDetails('${data.randID}')">
+                <img src="../static/assets/img/qmark.jpg" class="hero-img-main">
+                <h1 class="hero-name">Random</h1>
+            </div>
+            </a>
+        `;
+        $('#cards-container').append(cardHtml);
+    });
    
-
-
 });
