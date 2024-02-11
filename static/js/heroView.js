@@ -10,6 +10,7 @@ function showChatBox() {
     inputElement.id = "chatBox";
     var button = document.createElement("button")
     button.id = "chatButton";
+    button.innerHTML+="Send";
     inputElement.type = "text"; // Set input type to text
 
     // Replace the content of the div with the input element
