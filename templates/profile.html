@@ -8,18 +8,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Form</title>
     <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../static/css/sitewide.css">
 </head>
-<body class="container-fluid">
-    <p hidden id="user_id" name="user_id">{{session.userinfo.sub}}</p>
-    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+<body>
+  <p hidden id="user_id" name="user_id">{{session.userinfo.sub}}</p>
+
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          
+            <!--Profile Icon (HREF Changes based on session or not-->
+            {% if session %}
+            <!--<h1>Welcome {{session.userinfo.name}}!</h1>-->
+            <a href="/logout" class="navbar-brand" id="profile">
+                <img src="{{session.userinfo.picture}}" alt="Bootstrap" width="35" height="35">
+            </a>
+            <div style="display: none;"><pre>{{pretty}}</pre></div>
+
+            {% else %}
+            <a href="/login" class="navbar-brand" id="profile">
+                <img src="../static/assets/img/person-circle.svg" alt="Bootstrap" width="30" height="30">
+            </a>
+
+            {% endif %}
+
+            <!--Navbar Toggles-->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-link" href="/profile">Profile</a>
+                    <a class="nav-link" href="/" id="heroes">Heroes</a>
+                    <a class="nav-link" aria-current="page" href="#" id="about">About</a>
+                </div>
+            </div>
+        </div>
+      </nav>
+
+    <div id="aligner" class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+
         <div id="big-block" class="p-4">
             <h2>Your Information</h2>
             <hr>
             <div class="profile" id="information">
+
                 <p id="set-age">Age: <span id="displayAge"></span></p>
                 <p id="set-height">Height (inches): <span id="displayHeight"></span></p>
                 <p id="set-weight">Weight (pounds): <span id="displayWeight"></span></p>
+
                 <button id="editButton" onclick="editInformation()"> Edit </button>
+                
             </div>
             <form class="profile" id="inputForm" style="display: none;">
                 <label for="age">Age:</label>
@@ -36,5 +75,8 @@
             </form>
         </div>
     </div>
+
+    <!--Bootstrap-->
+    <script src="../static/js/bootstrap.min.js"></script>
 </body>
 </html>
