@@ -8,7 +8,7 @@ _Healthy Heroes_ was inspired by a drive to inspire people to be active and a lo
 _Healthy Heroes_ allows users to enter their information such as age, weight, and height to get a personalized workout and diet plan. However, what's special about these plans is that they are tailored to get you into the physique of your chosen hero. You can also ask your selected hero any question, and they'll respond with a response fitting for that hero. 
 
 ## How we built it
-Our web application is built on Flask, a lightweight web framework for Python. The front end was built using HTML and JavaScript, wrapped with Bootstrap CSS. We used the Python backend to make calls to the OpenAI API for the generated diet, workout, and chat responses. Additionally, we also used the Auth0 API to easily have authenticated user accounts with saved user information. Finally, we used JavaScript and jQuery to make calls to the Python backend and bring the backend data to the front end and vice versa. 
+Our web application is built on Flask, a lightweight web framework for Python. The front end was built using HTML and JavaScript, wrapped with Bootstrap CSS. We used the Python backend to make calls to the OpenAI API for the generated diet, workout, and chat responses. Additionally, we also used the Auth0 API to easily have authenticated user accounts with saved user information. The Superhero API was called to generate all the data on the different heroes. Finally, we used JavaScript and jQuery to make calls to the Python backend and bring the backend data to the front end and vice versa. 
 
 
 ## Challenges we ran into
