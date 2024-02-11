@@ -21,8 +21,22 @@ function showChatBox() {
         //alert("test!");
         var characterText = document.getElementById("chat-text-response");
         var response = inputElement.value;
+        response.removeQuestionMark = function() {
+            // Find the index of the question mark
+            var index = this.indexOf('?');
+            
+            // If a question mark is found, remove it and return the modified string
+            if (index !== -1) {
+                return this.substring(0, index) + this.substring(index + 1);
+            }
+            
+            // If no question mark is found, return the original string
+            return this;
+        };
+        
+        
         //alert(response);
-        characterText.innerHTML = "Loading...";
+        characterText.innerHTML = "Typing...";
 
         $.getJSON('/heroID/' + heroId, function(data) {
             const heroName = data.name; 
