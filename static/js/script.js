@@ -8,6 +8,11 @@ function showHeroDetails(heroID) {
 
 $(document).ready(function() {
 
+    function randomHero() {
+
+        window.location.href = "/redirect_page";
+    }
+
   
     //fix this to be done with id instead 
     heroIDS.forEach(function(id) {  //maps the heroes given in the array onto the homescreen
@@ -25,6 +30,7 @@ $(document).ready(function() {
             });
         
     })
+
 
     //Randomize ID
     var randID = Math.floor(Math.random() * 650);
