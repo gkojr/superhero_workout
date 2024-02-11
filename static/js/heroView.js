@@ -43,10 +43,7 @@ function showChatBox() {
 }
 
 $(document).ready(function() {
-
-    userId = document.getElementById('user_id').value
-
-
+    userId = document.getElementById('user_id')
     //get hero name and get the image for the hero
     $.getJSON('/heroID/' + heroId, function(data) {
         //get name and use for title
@@ -69,54 +66,20 @@ $(document).ready(function() {
         $.getJSON('/description/' + heroName, function(data) {
             $('#hero-description').text(data);
         })
-
-        $.getJSON('/workout/' + heroName + '/' + userId + '/' + "False", function(data) {
-            //$('.hero-description').text(data);
-            $('#workout-body').text(data);
-        })
-
-        $.getJSON('/diet/' + heroName + '/' + userId + '/' + "False", function(data) {
-            //$('.hero-description').text(data);
-            $('#diet-body').text(data);
-        })
-
         
-
-        function showWorkout(heroID) {
-            //window.location.href = `workout.html?heroID=${heroId}`;
-            // Get reference to the div
-            var div = document.getElementById('workout');
-            // Display text in the div
-            $.getJSON('/workout/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
-                //$('.hero-description').text(data);
-                const workout = data; 
-                div.textContent = workout;
-                div.style.display = 'block'; // Show the div
+        if(userId != null) {
+            userId = userId.value;
+            $.getJSON('/workout/' + heroName + '/' + userId + '/' + "False", function(data) {
+                $('#workout-body').text(data);
             })
-            
-        }
-    
-        function showDietPlan(heroID) {
-            //window.location.href = `diet.html?heroID=${heroId}`;
-            var div = document.getElementById('diet');
-            // Display text in the div
-            $.getJSON('/diet/' + heroName + '/' + 12 + '/' + 72 + '/' + 180 + '/' + "False", function(data) {
-                //$('.hero-description').text(data);
-                const workout = data; 
-                div.textContent = workout;
-                div.style.display = 'block'; // Show the div
+
+            $.getJSON('/diet/' + heroName + '/' + userId + '/' + "False", function(data) {
+                $('#diet-body').text(data);
             })
+        } else {
+            //default values
+            $('#workout-body').text("Unable to retrieve a workout plan at the moment. Please login first.");
+            $('#diet-body').text("Unable to retrieve a diet plan at the moment. Please login first.");
         }
-
-
-
-        //get the description for the hero
-        /*$.getJSON('/description/' + heroName, function(data) {
-            //$('.hero-description').text("hello");
-            alert("hello");
-        })*/
-
     })
-
-
 });
