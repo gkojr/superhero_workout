@@ -13,7 +13,7 @@ function submitForm() {
     var age = document.getElementById("age").value;
     var height = document.getElementById("height").value;
     var weight = document.getElementById("weight").value;
-    var userId = document.getElementById('user_id').value;
+    var userId = document.getElementById('userid').value;
 
     // Do something with the form data, such as sending it to a server
     const metadata = 
@@ -22,6 +22,8 @@ function submitForm() {
         "height": height,
         "weight": weight
     }
+
+
 
     console.log(metadata);
 
@@ -49,9 +51,9 @@ function submitForm() {
     
 
     // Update displayed information
-    document.getElementById("displayAge").textContent = age;
-    document.getElementById("displayHeight").textContent = height;
-    document.getElementById("displayWeight").textContent = weight;
+    document.getElementById("set-age").textContent = ("Age: " + age);
+    document.getElementById("set-height").textContent = ("Height (inches): " + height);
+    document.getElementById("set-weight").textContent = ("Weight (pounds): " + weight);
 
     // Hide form, show information
     document.getElementById("information").style.display = "block";
@@ -63,3 +65,16 @@ function submitForm() {
     document.getElementById("weight").value = "";
 }
 
+$(document).ready(function() {
+    var userId = document.getElementById('user_id').innerHTML;
+
+    $.getJSON('/get_user_data/' + userId + '/' + 'age', function(data) {
+        $('#set-age').text("Age: " + data);
+    })
+    $.getJSON('/get_user_data/' + userId + '/'  + 'height', function(data) {
+        $('#set-height').text("Height (inches): " + data);
+    })
+    $.getJSON('/get_user_data/' + userId + '/'  + 'weight', function(data) {
+        $('#set-weight').text("Weight (pounds): " + data);
+    })
+})

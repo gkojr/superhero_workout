@@ -99,6 +99,7 @@ DOMAIN = env.get("AUTH0_DOMAIN")
 ACCESS_TOKEN = env.get("MANAGEMENT_SECRET")
 AUDIENCE = f'https://{DOMAIN}/api/v2/'
 
+@app.route('/get_user_data/<user>/<data>')
 def getUserData(user, data):
     url = f"https://{DOMAIN}/api/v2/users/{user}?fields=user_metadata"
 
@@ -116,6 +117,7 @@ def getUserData(user, data):
 # Route to update user metadata
 @app.route('/update_metadata', methods=['POST'])
 def update_metadata():
+    print('post userdata')
     # Get user ID and metadata from the request
     user_id = request.json.get('user_id')
     print(user_id)

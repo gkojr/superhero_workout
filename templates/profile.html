@@ -11,11 +11,12 @@
     <link rel="stylesheet" href="../static/css/sitewide.css">
 </head>
 <body>
+  <p hidden id="user_id" name="user_id">{{session.userinfo.sub}}</p>
 
     <!--Navbar-->
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
-
+          
             <!--Profile Icon (HREF Changes based on session or not-->
             {% if session %}
             <!--<h1>Welcome {{session.userinfo.name}}!</h1>-->
@@ -46,14 +47,16 @@
       </nav>
 
     <div id="aligner" class="container d-flex justify-content-center align-items-center" style="height: 80vh;">
+
         <div id="big-block" class="p-4">
             <h2>Your Information</h2>
             <hr>
             <div class="profile" id="information">
-                
-                <p>Age: <span id="displayAge"></span></p>
-                <p>Height (inches): <span id="displayHeight"></span></p>
-                <p>Weight (pounds): <span id="displayWeight"></span></p>
+
+                <p id="set-age">Age: <span id="displayAge"></span></p>
+                <p id="set-height">Height (inches): <span id="displayHeight"></span></p>
+                <p id="set-weight">Weight (pounds): <span id="displayWeight"></span></p>
+
                 <button id="editButton" onclick="editInformation()"> Edit </button>
                 
             </div>
@@ -66,7 +69,7 @@
 
                 <label for="weight">Weight (pounds):</label>
                 <input type="number" id="weight" name="weight" required><br><br>
-                <input type="hidden" id="user_id" name="user_id" value={{session.userinfo.sub}}><br>
+                <input type="hidden" id="userid" name="userid" value={{session.userinfo.sub}}>
 
                 <button type="button" onclick="submitForm()">Submit</button>
             </form>
