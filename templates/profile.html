@@ -7,28 +7,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Input Form</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
 </head>
-<body>
-    <h2>Your Information</h2>
-    <div id="information">
-        <p>Age: <span id="displayAge"></span></p>
-        <p>Height (inches): <span id="displayHeight"></span></p>
-        <p>Weight (pounds): <span id="displayWeight"></span></p>
-        <button id="editButton" onclick="editInformation()">Edit Information</button>
+<body class="container-fluid">
+    <div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+        <div id="big-block" class="p-4">
+            <h2>Your Information</h2>
+            <hr>
+            <div class="profile" id="information">
+                <p>Age: <span id="displayAge"></span></p>
+                <p>Height (inches): <span id="displayHeight"></span></p>
+                <p>Weight (pounds): <span id="displayWeight"></span></p>
+                <button id="editButton" onclick="editInformation()"> Edit </button>
+            </div>
+            <form class="profile" id="inputForm" style="display: none;">
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" required><br><br>
+
+                <label for="height">Height (inches):</label>
+                <input type="number" id="height" name="height" required><br><br>
+
+                <label for="weight">Weight (pounds):</label>
+                <input type="number" id="weight" name="weight" required><br><br>
+                <input type="hidden" id="user_id" name="user_id" value={{session.userinfo.sub}}><br>
+
+                <button type="button" onclick="submitForm()">Submit</button>
+            </form>
+        </div>
     </div>
-    <form id="inputForm" style="display: none;">
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br><br>
-
-        <label for="height">Height (inches):</label>
-        <input type="number" id="height" name="height" required><br><br>
-
-        <label for="weight">Weight (pounds):</label>
-        <input type="number" id="weight" name="weight" required><br><br>
-        <input type="hidden" id="user_id" name="user_id" value={{session.userinfo.sub}}><br>
-
-        <button type="button" onclick="submitForm()">Submit</button>
-    </form>
 </body>
 </html>
