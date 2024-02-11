@@ -34,6 +34,10 @@ $(document).ready(function() {
             $('#diet-body').text(data);
         })
 
+        function showChatBox() {
+            
+        }
+
         function showWorkout(heroID) {
             //window.location.href = `workout.html?heroID=${heroId}`;
             // Get reference to the div
